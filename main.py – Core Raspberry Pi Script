@@ -1,0 +1,76 @@
+# main.py
+import time
+import cv2
+import numpy as np
+import tensorflow as tf
+import Adafruit_DHT
+
+# ---------------------------
+# Sensors Setup
+# ---------------------------
+DHT_SENSOR = Adafruit_DHT.DHT11
+DHT_PIN = 4  # GPIO Pin
+
+# ---------------------------
+# Load Trained AI Model
+# ---------------------------
+model = tf.keras.models.load_model('cattle_breed_model.h5')
+
+# List of 50 Indian cattle breeds
+breed_labels = [
+    "Tharparkar", "Gir", "Kankrej", "Sahiwal", "Ongole", 
+    "Red Sindhi", "Rathi", "Hariana", "Deoni", "Amrit Mahal",
+    "Hallikar", "Khillari", "Nagori", "Punganur", "Vechur",
+    "Malnad Gidda", "Kangayam", "Ponwar", "Kherigarh", "Gaolao",
+    "Jaffarabadi", "Kankrej", "Mehsana", "Bachaur", "Gangatiri",
+    "Dangi", "Pulikulam", "Kherigarh", "Sahiwal", "Tharparkar",
+    "Gir", "Red Sindhi", "Hariana", "Deoni", "Ongole",
+    "Hallikar", "Malnad Gidda", "Vechur", "Kangayam", "Ponwar",
+    "Bachaur", "Gangatiri", "Dangi", "Punganur", "Mehsana",
+    "Gaolao", "Jaffarabadi", "Pulikulam", "Khillari", "Kherigarh"
+]
+
+# ---------------------------
+# Camera Setup
+# ---------------------------
+camera = cv2.VideoCapture(0)
+
+print("Starting AI Cattle Breed Monitoring System...")
+time.sleep(2)
+
+try:
+    while True:
+        # Capture Image
+        ret, frame = camera.read()
+        if not ret:
+            print("Failed to capture image")
+            continue
+
+        # Preprocess Image
+        img = cv2.resize(frame, (224, 224))
+        img = img / 255.0
+        img = np.expand_dims(img, axis=0)
+
+        # Predict Breed
+        predictions = model.predict(img)
+        breed_index = np.argmax(predictions)
+        breed_name = breed_labels[breed_index]
+
+        # Read DHT11 Sensor
+        humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
+
+        # Display Results
+        print(f"Detected Breed: {breed_name}")
+        if humidity is not None and temperature is not None:
+            print(f"Temperature: {temperature:.1f}°C, Humidity: {humidity:.1f}%")
+        else:
+            print("Failed to read DHT11 sensor.")
+
+        time.sleep(5)  # Capture every 5 seconds
+
+except KeyboardInterrupt:
+    print("Exiting program...")
+
+finally:
+    camera.release()
+    cv2.destroyAllWindows()
