@@ -1,0 +1,47 @@
+# Week-1-agilan
+Breed Classifier
+# AI-Powered Indian Cattle Breed Identification and Monitoring System
+
+This project uses **Raspberry Pi, AI, and sensors** to identify Indian cattle breeds and monitor environmental conditions in real time. A pre-trained deep learning model classifies images of cattle into **50 officially recognized Indian breeds**, while sensors provide temperature and humidity readings.
+
+---
+
+## Features
+
+- Real-time cattle breed detection using a Pi Camera.
+- Classification of 50 Indian cattle breeds.
+- Temperature and humidity monitoring with DHT11 sensor.
+- Modular design for easy integration with IoT devices.
+- Low-cost, scalable solution for smart farming and livestock management.
+
+---
+
+## Hardware Requirements
+
+- Raspberry Pi 3B+ or 4
+- Pi Camera Module (8 MP recommended)
+- DHT11 or DHT22 Temperature & Humidity Sensor
+- Optional: RFID Module for cattle identification
+- Optional: GPS Module for location tracking
+- Wi-Fi/Internet for remote data upload (optional)
+
+---
+
+## Software Requirements
+
+- Python 3.x
+- TensorFlow
+- OpenCV
+- NumPy
+- Adafruit-DHT
+- RPi.GPIO
+
+---
+
+## Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/USERNAME/AI-Cattle-Breed-Monitoring-RPi.git
+cd AI-Cattle-Breed-Monitoring-RPi
