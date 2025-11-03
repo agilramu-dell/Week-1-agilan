@@ -1,0 +1,5 @@
+tensorflow
+opencv-python
+numpy
+Adafruit-DHT
+RPi.GPIO
