@@ -1,0 +1,8 @@
+AI-Cattle-Breed-Monitoring-RPi/
+│
+├── main.py
+├── utils.py
+├── sensor_reading.py
+├── cattle_breed_model.h5
+├── requirements.txt
+└── README.md
